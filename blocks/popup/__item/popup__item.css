@@ -1,0 +1,15 @@
+.popup__item {
+  position: relative;
+  display: flex;
+  margin: 0 0 30px;
+}
+
+.popup__item:last-child {
+  margin: 0 0 48px;
+}
+
+@media screen and (max-width: 767px) {
+  .popup__item:last-child {
+      margin: 0 0 45px;
+  }
+}
