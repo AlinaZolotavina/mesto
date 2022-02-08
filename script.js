@@ -16,7 +16,7 @@ const closePopup = function() {
 
 popupCloseBtn.addEventListener('click', closePopup);
 
-// activate like-btn 
+// activate like-btn
 for (let likeBtn of  document.querySelectorAll('.element__like-btn')) {
     likeBtn.addEventListener('click', function() {
         likeBtn.classList.add('element__like-btn_clicked');

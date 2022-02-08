@@ -221,7 +221,10 @@
 
 .element__image {
     width: 100%;
+    min-height: 282px;
     border-radius: 10px 10px 0 0;
+    object-fit: cover;
+    object-position: center;
 }
 
 .element__container {
@@ -242,6 +245,7 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    max-width: 200px;
 }
 
 .element__like-btn {
