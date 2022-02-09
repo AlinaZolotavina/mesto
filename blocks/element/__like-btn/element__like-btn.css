@@ -8,3 +8,7 @@
   cursor: pointer;
   transition: opacity .3s ease;
 }
+
+.element__like-btn:hover {
+  opacity: .6;
+}
