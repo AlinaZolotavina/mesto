@@ -56,6 +56,46 @@ addCardPopupCloseBtn.addEventListener('click', function() {
   closePopup(addCardPopup);
 });
 
+// initial cards
+const initialCards = [
+  {
+    name: 'Архыз',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+  },
+  {
+    name: 'Челябинская область',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+  },
+  {
+    name: 'Иваново',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+  },
+  {
+    name: 'Камчатка',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+  },
+  {
+    name: 'Холмогорский район',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+  },
+  {
+    name: 'Байкал',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+  }
+];
+
+const cardTemplate = document.querySelector('#card').content;
+const cards = document.querySelector('.elements__list');
+
+initialCards.forEach(function (item) {
+  const cardElement = cardTemplate.querySelector('.element').cloneNode(true);
+
+  cardElement.querySelector('.element__title').textContent = item.name;
+  cardElement.querySelector('.element__image').src = item.link;
+
+  cards.prepend(cardElement);
+});
+
 // activate like-btn
 for (let likeBtn of  document.querySelectorAll('.element__like-btn')) {
   likeBtn.addEventListener('click', function() {
