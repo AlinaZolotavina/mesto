@@ -86,15 +86,38 @@ const initialCards = [
 
 const cardTemplate = document.querySelector('#card').content;
 const cards = document.querySelector('.elements__list');
+const card = cardTemplate.querySelector('.element');
+const cardTitle = card.querySelector('.element__title');
+const cardImgLink = card.querySelector('.element__image');
 
 initialCards.forEach(function (item) {
-  const cardElement = cardTemplate.querySelector('.element').cloneNode(true);
+  cardTitle.textContent = item.name;
+  cardImgLink.src = item.link;
 
-  cardElement.querySelector('.element__title').textContent = item.name;
-  cardElement.querySelector('.element__image').src = item.link;
+  const cardElement = card.cloneNode(true);
+
+  cards.append(cardElement);
+});
+
+// add new card
+const addFormElement = addCardPopup.querySelector('.popup__form');
+const imgTitleInput = addCardPopup.querySelector('.popup__input_type_title');
+const imgLinkInput = addCardPopup.querySelector('.popup__input_type_link');
+
+function addNewCard (event) {
+  event.preventDefault();
+
+  cardTitle.textContent = imgTitleInput.value;
+  cardImgLink.src = imgLinkInput.value;
+
+  const cardElement = card.cloneNode(true);
 
   cards.prepend(cardElement);
-});
+
+  closePopup(addCardPopup);
+};
+
+addFormElement.addEventListener('submit', addNewCard);
 
 // activate like-btn
 for (let likeBtn of  document.querySelectorAll('.element__like-btn')) {
@@ -102,3 +125,4 @@ for (let likeBtn of  document.querySelectorAll('.element__like-btn')) {
       likeBtn.classList.add('element__like-btn_clicked');
   });
 };
+
