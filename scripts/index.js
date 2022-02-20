@@ -119,10 +119,26 @@ function addNewCard (event) {
 
 addFormElement.addEventListener('submit', addNewCard);
 
-// activate like-btn
-for (let likeBtn of  document.querySelectorAll('.element__like-btn')) {
-  likeBtn.addEventListener('click', function() {
-      likeBtn.classList.add('element__like-btn_clicked');
-  });
+
+// like card
+cards.onclick = function(event) {
+  let pressedLikeBtn = event.target;
+
+  if (pressedLikeBtn.className !== 'element__like-btn') {
+    return;
+  };
+
+  pressedLikeBtn.classList.add('element__like-btn_clicked');
 };
 
+// delete card
+cards.onclick = function(event) {
+  let pressedDeleteBtn = event.target;
+  console.log(pressedDeleteBtn);
+
+  if (pressedDeleteBtn.className !== 'element__delete-btn') {
+    return;
+  };
+
+  pressedDeleteBtn.closest('.element').remove();
+};
