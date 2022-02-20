@@ -8,3 +8,7 @@
   border: none;
   border-bottom: 1px solid rgba(0 0 0 / .2);
 }
+
+.popup__input:active, :focus, :hover {
+  outline: none;
+}

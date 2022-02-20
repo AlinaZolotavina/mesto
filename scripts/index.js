@@ -126,7 +126,6 @@ addFormElement.addEventListener('submit', addNewCard);
 // like and delete card
 cards.onclick = function(event) {
   let pressedBtn = event.target;
-  console.log(pressedBtn);
 
   if (pressedBtn.className === 'element__like-btn') {
     pressedBtn.classList.add('element__like-btn_clicked');
