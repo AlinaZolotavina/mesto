@@ -114,31 +114,27 @@ function addNewCard (event) {
 
   cards.prepend(cardElement);
 
+  imgTitleInput.value = '';
+  imgLinkInput.value = '';
+
   closePopup(addCardPopup);
 };
 
 addFormElement.addEventListener('submit', addNewCard);
 
 
-// like card
+// like and delete card
 cards.onclick = function(event) {
-  let pressedLikeBtn = event.target;
+  let pressedBtn = event.target;
+  console.log(pressedBtn);
 
-  if (pressedLikeBtn.className !== 'element__like-btn') {
+  if (pressedBtn.className === 'element__like-btn') {
+    pressedBtn.classList.add('element__like-btn_clicked');
+  } else if (pressedBtn.className === 'element__delete-btn') {
+    pressedBtn.closest('.element').remove();
+  } else {
     return;
-  };
-
-  pressedLikeBtn.classList.add('element__like-btn_clicked');
+  }
 };
 
-// delete card
-cards.onclick = function(event) {
-  let pressedDeleteBtn = event.target;
-  console.log(pressedDeleteBtn);
 
-  if (pressedDeleteBtn.className !== 'element__delete-btn') {
-    return;
-  };
-
-  pressedDeleteBtn.closest('.element').remove();
-};
