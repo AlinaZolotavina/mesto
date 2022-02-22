@@ -83,11 +83,12 @@ const cardTemplate = document.querySelector('#card').content;
 const cards = document.querySelector('.elements__list');
 const card = cardTemplate.querySelector('.element');
 const cardTitle = card.querySelector('.element__title');
-const cardImgLink = card.querySelector('.element__image');
+const cardImg = card.querySelector('.element__image');
 
 initialCards.forEach(function (item) {
   cardTitle.textContent = item.name;
-  cardImgLink.src = item.link;
+  cardImg.src = item.link;
+  cardImg.alt = 'Фото: ' + item.name;
 
   const cardElement = card.cloneNode(true);
 
