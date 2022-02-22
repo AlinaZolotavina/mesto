@@ -1,29 +1,26 @@
-// open popup function
+// functions, that open and close popups
 const openPopup = function(popupElement) {
   popupElement.classList.add('popup_is-opened');
 };
 
-// close popup function
 const closePopup = function(popupElement) {
   popupElement.classList.remove('popup_is-opened');
 };
 
-// define profile editing popup's elements
+// edit profile popup: open and close by click
 const editProfilePopup = document.querySelector('.popup_type_edit-profile');
 const editProfileBtn = document.querySelector('.profile__edit-btn');
 const editProfilePopupCloseBtn = editProfilePopup.querySelector('.popup__close-btn');
 
-// open profile editing popup
 editProfileBtn.addEventListener('click', function() {
   openPopup(editProfilePopup);
 });
 
-// close profile editing popup
 editProfilePopupCloseBtn.addEventListener('click', function() {
   closePopup(editProfilePopup);
 });
 
-// edit profile information
+// edit profile popup: edit information
 const editFormElement = editProfilePopup.querySelector('.popup__form');
 const nameInput = editFormElement.querySelector('.popup__input_type_name');
 const jobInput = editFormElement.querySelector('.popup__input_type_job');
@@ -41,22 +38,20 @@ function handleProfileFormSubmit (event) {
 
 editFormElement.addEventListener('submit', handleProfileFormSubmit);
 
-// define card adding popup's elements
+// add card popup: open and close by click
 const addCardPopup = document.querySelector('.popup_type_add-photo');
 const addCardBtn = document.querySelector('.profile__add-btn');
 const addCardPopupCloseBtn = addCardPopup.querySelector('.popup__close-btn');
 
-// open card adding popup
 addCardBtn.addEventListener('click', function() {
   openPopup(addCardPopup);
 });
 
-// close card adding popup
 addCardPopupCloseBtn.addEventListener('click', function() {
   closePopup(addCardPopup);
 });
 
-// initial cards
+// render initial cards
 const initialCards = [
   {
     name: 'Архыз',
@@ -122,12 +117,10 @@ function addNewCard (event) {
 
 addFormElement.addEventListener('submit', addNewCard);
 
-
 // like and delete card, open photo popup
 const photoPopup = document.querySelector('.popup_type_photo');
 const openedPhoto = photoPopup.querySelector('.popup__image');
 const openedPhotoCapture = photoPopup.querySelector('.popup__caption');
-
 
 cards.onclick = function(event) {
   let pressedElement = event.target;
@@ -139,6 +132,7 @@ cards.onclick = function(event) {
   } else if (pressedElement.className === 'element__image') {
     openPopup(photoPopup);
     openedPhoto.src = pressedElement.closest('.element__image').src;
+    openedPhoto.alt = pressedElement.nextElementSibling.firstElementChild.textContent;
     openedPhotoCapture.textContent = pressedElement.nextElementSibling.firstElementChild.textContent;
   } else {
     return;
