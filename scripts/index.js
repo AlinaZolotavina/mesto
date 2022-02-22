@@ -123,17 +123,31 @@ function addNewCard (event) {
 addFormElement.addEventListener('submit', addNewCard);
 
 
-// like and delete card
-cards.onclick = function(event) {
-  let pressedBtn = event.target;
+// like and delete card, open photo popup
+const photoPopup = document.querySelector('.popup_type_photo');
+const openedPhoto = photoPopup.querySelector('.popup__image');
+const openedPhotoCapture = photoPopup.querySelector('.popup__caption');
 
-  if (pressedBtn.className === 'element__like-btn') {
-    pressedBtn.classList.add('element__like-btn_clicked');
-  } else if (pressedBtn.className === 'element__delete-btn') {
-    pressedBtn.closest('.element').remove();
+
+cards.onclick = function(event) {
+  let pressedElement = event.target;
+
+  if (pressedElement.className === 'element__like-btn') {
+    pressedElement.classList.add('element__like-btn_clicked');
+  } else if (pressedElement.className === 'element__delete-btn') {
+    pressedElement.closest('.element').remove();
+  } else if (pressedElement.className === 'element__image') {
+    openPopup(photoPopup);
+    openedPhoto.src = pressedElement.closest('.element__image').src;
+    openedPhotoCapture.textContent = pressedElement.nextElementSibling.firstElementChild.textContent;
   } else {
     return;
   }
 };
 
+// close photo popup
+const photoPopupCloseBtn = photoPopup.querySelector('.popup__close-btn');
 
+photoPopupCloseBtn.addEventListener('click', function() {
+  closePopup(photoPopup);
+});
