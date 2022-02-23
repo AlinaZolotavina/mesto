@@ -53,7 +53,7 @@ addCardPopupCloseBtn.addEventListener('click', function() {
 
 // card : like
 const likePhoto = function(likeBtn) {
-  likeBtn.classList.add('element__like-btn_clicked');
+  likeBtn.classList.toggle('element__like-btn_clicked');
 };
 
 // card: delete
