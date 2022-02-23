@@ -51,7 +51,17 @@ addCardPopupCloseBtn.addEventListener('click', function() {
   closePopup(addCardPopup);
 });
 
-// render initial cards
+// card : like
+const likePhoto = function(likeBtn) {
+  likeBtn.classList.add('element__like-btn_clicked');
+};
+
+// card: delete
+const deleteCard = function(deleteBtn) {
+  deleteBtn.closest('.element').remove();
+};
+
+// render cards
 const initialCards = [
   {
     name: 'Архыз',
@@ -80,19 +90,50 @@ const initialCards = [
 ];
 
 const cardTemplate = document.querySelector('#card').content;
-const cards = document.querySelector('.elements__list');
 const card = cardTemplate.querySelector('.element');
 const cardTitle = card.querySelector('.element__title');
 const cardImg = card.querySelector('.element__image');
+const photoPopup = document.querySelector('.popup_type_photo');
+const openedPhoto = photoPopup.querySelector('.popup__image');
+const openedPhotoCapture = photoPopup.querySelector('.popup__caption');
 
-initialCards.forEach(function (item) {
-  cardTitle.textContent = item.name;
-  cardImg.src = item.link;
-  cardImg.alt = 'Фото: ' + item.name;
+const createCard = function(title, link) {
+  cardTitle.textContent = title;
+  cardImg.src = link;
+  cardImg.alt = 'Фото: ' + title;
 
   const cardElement = card.cloneNode(true);
 
-  cards.append(cardElement);
+  const likeBtn = cardElement.querySelector('.element__like-btn');
+  likeBtn.addEventListener('click', function() {
+    likePhoto(likeBtn);
+  });
+
+  const deleteBtn = cardElement.querySelector('.element__delete-btn');
+  deleteBtn.addEventListener('click', function() {
+    deleteCard(deleteBtn)
+  });
+
+  const photo = cardElement.querySelector('.element__image');
+  photo.addEventListener('click', function() {
+    openedPhoto.src = photo.src;
+    openedPhoto.alt = photo.alt;
+    openedPhotoCapture.textContent = photo.nextElementSibling.firstElementChild.textContent;
+    openPopup(photoPopup);
+  });
+
+  return cardElement;
+};
+
+const renderCard = function (title, link, container) {
+  const cardElement = createCard(title, link);
+  container.prepend(cardElement);
+};
+
+const cards = document.querySelector('.elements__list');
+
+initialCards.reverse().forEach(function(item) {
+  renderCard(item.name, item.link, cards);
 });
 
 // add new card
@@ -103,44 +144,16 @@ const imgLinkInput = addCardPopup.querySelector('.popup__input_type_link');
 function addNewCard (event) {
   event.preventDefault();
 
-  cardTitle.textContent = imgTitleInput.value;
-  cardImgLink.src = imgLinkInput.value;
-
-  const cardElement = card.cloneNode(true);
-
-  cards.prepend(cardElement);
-
-  imgTitleInput.value = '';
-  imgLinkInput.value = '';
+  renderCard(imgTitleInput.value, imgLinkInput.value, cards)
 
   closePopup(addCardPopup);
+
+  addFormElement.reset();
 };
 
 addFormElement.addEventListener('submit', addNewCard);
 
-// like and delete card, open photo popup
-const photoPopup = document.querySelector('.popup_type_photo');
-const openedPhoto = photoPopup.querySelector('.popup__image');
-const openedPhotoCapture = photoPopup.querySelector('.popup__caption');
-
-cards.onclick = function(event) {
-  let pressedElement = event.target;
-
-  if (pressedElement.className === 'element__like-btn') {
-    pressedElement.classList.add('element__like-btn_clicked');
-  } else if (pressedElement.className === 'element__delete-btn') {
-    pressedElement.closest('.element').remove();
-  } else if (pressedElement.className === 'element__image') {
-    openPopup(photoPopup);
-    openedPhoto.src = pressedElement.closest('.element__image').src;
-    openedPhoto.alt = pressedElement.nextElementSibling.firstElementChild.textContent;
-    openedPhotoCapture.textContent = pressedElement.nextElementSibling.firstElementChild.textContent;
-  } else {
-    return;
-  }
-};
-
-// close photo popup
+// photo popup: close by click
 const photoPopupCloseBtn = photoPopup.querySelector('.popup__close-btn');
 
 photoPopupCloseBtn.addEventListener('click', function() {
