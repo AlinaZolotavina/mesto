@@ -1,6 +1,7 @@
 // functions, that open and close popups
 const openPopup = function(popupElement) {
   popupElement.classList.add('popup_is-opened');
+  setPossibilityToCloseByPressingEscape(popupElement);
 };
 
 const closePopup = function(popupElement) {
@@ -159,3 +160,23 @@ const photoPopupCloseBtn = photoPopup.querySelector('.popup__close-btn');
 photoPopupCloseBtn.addEventListener('click', function() {
   closePopup(photoPopup);
 });
+
+const popupElements = Array.from(document.querySelectorAll('.popup'));
+
+popupElements.forEach(function(popupElement) {
+  popupElement.addEventListener('click', function(event) {
+    if (event.target === event.currentTarget) {
+      closePopup(popupElement);
+    } else {
+      return;
+    };
+  });
+});
+
+const setPossibilityToCloseByPressingEscape = function(popupElement) {
+  document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closePopup(popupElement);
+      };
+  });
+};
