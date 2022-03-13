@@ -3,14 +3,14 @@
 The interactive service that allows users to add photos and captions to them, delete added photos, put likes, edit profile information, change the user's avatar.
 
 
-*At the moment, the following options are available:*
-- opening / closing the popup, that edit profile information,
-- editing profile information (not saved after reloading the page),
-- opening / closing the popup, that add new photo,
-- adding new photo and its caption (not saved after reloading the page),
-- activating the "like" button (not saved after reloading the page),
+*The following options are available at the moment:*
+- opening popups,
+- closing popups by click and pressing "escape",
+- editing profile information,
+- adding new photo and its caption,
+- activating the "like" button,
 - deleting photos ,
-- opening / closing the photo popup.
+- client-side form validation.
 
 
 [Project link on GitHub Pages](https://alinazolotavina.github.io/mesto/index.html)
@@ -29,14 +29,13 @@ The interactive service that allows users to add photos and captions to them, de
 
 
 *На данный момент реализованы следующие возможности:*
-- открытие / закрытие попапа редактирования информации профиля,
-- редактирование информации профиля (не сохраняющееся после перезагрузки страницы),
-- открытие / закрытие попапа добавления новой фотографии,
+- открытие попапов,
+- закрытие попапов по клику и нажатию клавиши "escape",
+- редактирование информации профиля,
 - добавление новой фотографии с подписью к ней,
 - активация кнопки "лайка",
 - удаление фотографий,
-- открытие / закрытие попапа с фотографией.
-
+- валидация форм на стороне пользователя.
 
 
 [Ссылка на проект на GitHub Pages](https://alinazolotavina.github.io/mesto/index.html)
@@ -48,6 +47,3 @@ The interactive service that allows users to add photos and captions to them, de
 - Реализовать счетчик "лайков";
 - Реализовать сохранение измененнной информации о пользователе после перезагрузки страницы;
 - Реализовать возможность изменения аватара пользователя.
-
-
-

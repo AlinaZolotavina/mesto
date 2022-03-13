@@ -21,12 +21,12 @@ const addFormElement = addCardPopup.querySelector('.form');
 const imgTitleInput = addCardPopup.querySelector('.form__input_type_title');
 const imgLinkInput = addCardPopup.querySelector('.form__input_type_link');
 const cards = document.querySelector('.elements__list');
+const addCardPopupSaveBtn = addFormElement.querySelector('.form__save-btn');
 
 const photoPopup = document.querySelector('.popup_type_photo');
 const openedPhoto = photoPopup.querySelector('.popup__image');
 const openedPhotoCapture = photoPopup.querySelector('.popup__caption');
 const photoPopupCloseBtn = photoPopup.querySelector('.popup__close-btn');
-
 
 // functions
 const openPopup = function(popupElement) {
@@ -64,9 +64,8 @@ function addNewCard (event) {
 
   addFormElement.reset();
 
-  const inputList = Array.from(addCardPopup.querySelectorAll('.form__input'));
-  buttonElement = addCardPopup.querySelector('.form__save-btn');
-  toggleButtonState(inputList, buttonElement);
+  addCardPopupSaveBtn.setAttribute('disabled', true);
+  addCardPopupSaveBtn.classList.add('form__save-btn_inactive');
 };
 
 const createCard = function(title, link) {
