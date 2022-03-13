@@ -37,14 +37,16 @@
     <div class="popup popup_type_edit-profile">
       <div class="popup__container">
         <h2 class="popup__title">Редактировать профиль</h2>
-        <form class="popup__form" name="editProfileForm">
-          <label class="popup__item">
-            <input type="text" name="name" placeholder="Ваше имя" value="Жак-Ив Кусто" class="popup__input popup__input_type_name">
+        <form class="form" name="editProfileForm" novalidate>
+          <label class="form__item">
+            <input class="form__input form__input_type_name" id="name-input" type="text" name="name" placeholder="Ваше имя" value="Жак-Ив Кусто" minlength="2" maxlength="40" required>
+            <span class="form__input-error name-input-error">Вы пропустили это поле.</span>
           </label>
-          <label class="popup__item">
-            <input type="text" name="job" placeholder="Кратко о Вас" value="Исследователь океана" class="popup__input popup__input_type_job">
+          <label class="form__item">
+            <input class="form__input form__input_type_job" id="job-input" type="text" name="job" placeholder="Кратко о Вас" value="Исследователь океана" minlength="2" maxlength="200" required>
+            <span class="form__input-error job-input-error">Вы пропустили это поле.</span>
           </label>
-          <button class="popup__save-btn" type="submit">Сохранить</button>
+          <button class="form__save-btn" type="submit">Сохранить</button>
         </form>
         <button class="popup__close-btn"></button>
       </div>
@@ -53,14 +55,16 @@
     <div class="popup popup_type_add-photo">
       <div class="popup__container">
         <h2 class="popup__title">Новое место</h2>
-        <form class="popup__form" name="addNewPhotoForm">
-          <label class="popup__item">
-            <input type="text" name="name" placeholder="Название" class="popup__input popup__input_type_title">
+        <form class="form" name="addNewPhotoForm" novalidate>
+          <label class="form__item">
+            <input class="form__input form__input_type_title" id="title-input" type="text" name="title" placeholder="Название" minlength="2" maxlength="30" required>
+            <span class="form__input-error title-input-error">Вы пропустили это поле.</span>
           </label>
-          <label class="popup__item">
-            <input type="text" name="job" placeholder="Ссылка на картинку" class="popup__input popup__input_type_link">
+          <label class="form__item">
+            <input class="form__input form__input_type_link" id="link-input" type="url" name="link" placeholder="Ссылка на картинку" required>
+            <span class="form__input-error link-input-error">Введите адрес сайта.</span>
           </label>
-          <button class="popup__save-btn" type="submit">Создать</button>
+          <button class="form__save-btn" type="submit">Создать</button>
         </form>
         <button class="popup__close-btn"></button>
       </div>
@@ -89,5 +93,6 @@
 
   </div>
   <script src="./scripts/index.js"></script>
+  <script src="./scripts/validate.js"></script>
 </body>
 </html>
