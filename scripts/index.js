@@ -1,3 +1,4 @@
+import initialCards from './initialCards.js';
 import Card from './Card.js';
 import FormValidator from './FormValidator.js';
 
@@ -17,7 +18,6 @@ const addFormElement = addCardPopup.querySelector('.form');
 const imgTitleInput = addCardPopup.querySelector('.form__input_type_title');
 const imgLinkInput = addCardPopup.querySelector('.form__input_type_link');
 const cards = document.querySelector('.elements__list');
-const addCardPopupSaveBtn = addFormElement.querySelector('.form__save-btn');
 
 export const photoPopup = document.querySelector('.popup_type_photo');
 export const openedPhoto = photoPopup.querySelector('.popup__image');
@@ -32,33 +32,6 @@ const settingsObj = {
   errorClassActive: 'form__input-error_active'
 }
 
-const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
-
 // functions
 export const openPopup = function(popupElement) {
   popupElement.classList.add('popup_is-opened');
@@ -70,11 +43,43 @@ const closePopup = function(popupElement) {
   document.removeEventListener('keydown', closeByEscape);
 };
 
+const openEditProfilePopup = function() {
+  nameInput.value = profileName.textContent;
+  jobInput.value = profileJob.textContent;
+  hideFormErrors(editFormElement);
+  openPopup(editProfilePopup);
+}
+
+const openAddCardPopup = function() {
+  addFormElement.reset();
+  hideFormErrors(addFormElement);
+  openPopup(addCardPopup);
+}
+
+const hideFormErrors = function(formElement) {
+  const formInputErrors = formElement.querySelectorAll('.form__input-error');
+  formInputErrors.forEach((formInputError) => {
+    formInputError.textContent = '';
+  });
+  const formInputs = formElement.querySelectorAll('.form__input');
+  formInputs.forEach((formInput) => {
+    formInput.classList.remove('form__input_type_error');
+  });
+}
+
+const changeProfileInfo = function() {
+  if (nameInput.value !== profileName.textContent) {
+    profileName.textContent = nameInput.value;
+  }
+  if (jobInput.value !== profileJob.textContent) {
+    profileJob.textContent = jobInput.value;
+  }
+}
+
 function handleProfileFormSubmit (evt) {
   evt.preventDefault();
 
-  profileName.textContent = nameInput.value;
-  profileJob.textContent = jobInput.value;
+  changeProfileInfo();
 
   closePopup(editProfilePopup);
 };
@@ -96,8 +101,7 @@ function addNewCard (evt) {
 
   addFormElement.reset();
 
-  addCardPopupSaveBtn.setAttribute('disabled', true);
-  addCardPopupSaveBtn.classList.add('form__save-btn_inactive');
+  validatePhotoform.blockButton();
 
   closePopup(addCardPopup);
 };
@@ -111,8 +115,7 @@ const closeByEscape = function(evt) {
 
 // render initial cards
 initialCards.reverse().forEach((item) => {
-  const card = new Card(item, '#card');
-  const cardElement = card.generateCard();
+  const cardElement = createCard(item);
   cards.prepend(cardElement);
 });
 
@@ -125,7 +128,7 @@ validatePhotoform.enableValidation();
 
 // set event listeners
 editProfileBtn.addEventListener('click', function() {
-  openPopup(editProfilePopup);
+  openEditProfilePopup();
 });
 
 popupElements.forEach(function(popupElement) {
@@ -141,7 +144,7 @@ popupElements.forEach(function(popupElement) {
 editFormElement.addEventListener('submit', handleProfileFormSubmit);
 
 addCardBtn.addEventListener('click', function() {
-  openPopup(addCardPopup);
+  openAddCardPopup();
 });
 
 addFormElement.addEventListener('submit', addNewCard);
