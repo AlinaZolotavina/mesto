@@ -1,10 +1,9 @@
-import {photoPopup, openedPhoto, openedPhotoCapture} from './index.js';
-import {openPopup} from './index.js';
-
 class Card {
-  constructor(data, cardSelector) {
+  constructor({ data, handleCardClick }, cardSelector) {
+    this._data = data;
     this._title = data.name;
     this._image = data.link;
+    this._handleCardClick = handleCardClick;
     this._cardSelector = cardSelector;
   }
 
@@ -35,7 +34,7 @@ class Card {
     })
 
     this._element.querySelector('.element__image').addEventListener('click', () => {
-      this._handlePhotoPopupOpen();
+      this._handleCardClick(this._data);
     })
   }
 
@@ -45,13 +44,6 @@ class Card {
 
   _handleCardDelete() {
     this._element.remove();
-  }
-
-  _handlePhotoPopupOpen() {
-    openedPhoto.src = this._image;
-    openedPhoto.alt = 'Фото ' + this._title;
-    openedPhotoCapture.textContent = this._title;
-    openPopup(photoPopup);
   }
 };
 
