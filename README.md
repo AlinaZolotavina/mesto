@@ -1,4 +1,4 @@
-# Project: Mesto ![english](./images/english.png?raw=true?raw=true)
+# Project: Mesto ![english](./src/images/english.png?raw=true?raw=true)
 ## About the project:
 The interactive service that allows users to add photos and captions to them, delete added photos, put likes, edit profile information, change the user's avatar.
 
@@ -23,7 +23,7 @@ The interactive service that allows users to add photos and captions to them, de
 - Implement saving of changed user information after reloading the page;
 - Implement the possibility to change the user's avatar.
 
-# Проект: Место ![russian](./images/russian.png?raw=true?raw=true)
+# Проект: Место ![russian](./src/images/russian.png?raw=true?raw=true)
 ## О проекте:
 Интерактивный сервис, позволяющий пользователям добавлять фотографии и подписи к ним, удалять добавленные фотографии, ставить лайки, редактировать информацию профиля, изменять аватар пользователя.
 
