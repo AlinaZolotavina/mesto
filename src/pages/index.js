@@ -1,13 +1,13 @@
 import '../pages/index.css';
 
-import initialCards from './initialCards.js';
-import Card from './Card.js';
-import FormValidator from './FormValidator.js';
-import Section from './Section.js';
-import UserInfo from './UserInfo.js';
+import initialCards from '../scripts/utils/initialCards.js';
+import Card from '../scripts/components/Card.js';
+import FormValidator from '../scripts/components/FormValidator.js';
+import Section from '../scripts/components/Section.js';
+import UserInfo from '../scripts/components/UserInfo.js';
 import { editProfileBtn, editFormElement, nameInput, jobInput, addCardBtn, addFormElement, cards, cardListSelector, userDataSelectors, settingsObj } from '../scripts/utils/constants.js';
-import PopupWithForm from './PopupWithForm.js';
-import PopupWithImage from './PopupWithImage.js';
+import PopupWithForm from '../scripts/components/PopupWithForm.js';
+import PopupWithImage from '../scripts/components/PopupWithImage.js';
 
 // edit profile
 const userInfoElement = new UserInfo(userDataSelectors);
