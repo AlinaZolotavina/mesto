@@ -33,3 +33,9 @@ export const userDataSelectors = {
   nameSelector: '.profile__name',
   jobSelector: '.profile__job'
 };
+
+export const popupConfig = {
+  editProfilePopup: '.popup_type_edit-profile',
+  addCardPopup: '.popup_type_add-photo',
+  photoPopup: '.popup_type_photo'
+}

@@ -5,49 +5,64 @@ import Card from '../scripts/components/Card.js';
 import FormValidator from '../scripts/components/FormValidator.js';
 import Section from '../scripts/components/Section.js';
 import UserInfo from '../scripts/components/UserInfo.js';
-import { editProfileBtn, editFormElement, nameInput, jobInput, addCardBtn, addFormElement, cards, cardListSelector, userDataSelectors, settingsObj } from '../scripts/utils/constants.js';
+import { editProfileBtn, editFormElement, nameInput, jobInput, addCardBtn, addFormElement, cards, cardListSelector, settingsObj, userDataSelectors, popupConfig } from '../scripts/utils/constants.js';
 import PopupWithForm from '../scripts/components/PopupWithForm.js';
 import PopupWithImage from '../scripts/components/PopupWithImage.js';
 
 // edit profile
 const userInfoElement = new UserInfo(userDataSelectors);
 
-const editProfilePopup = new PopupWithForm('.popup_type_edit-profile', {
+const editProfilePopup = new PopupWithForm({
+  popupSelector: popupConfig.editProfilePopup,
   formSubmitCallBack: (data) => {
-      if (data.name !== userInfoElement.name) {
-        userInfoElement.setUserInfo(data);
-      };
-      if (data.job !== userInfoElement.job) {
-        userInfoElement.setUserInfo(data);
-      };
+      userInfoElement.setUserInfo(data);
   }
 })
 
+editProfilePopup.setEventListeners();
+
 // add new card
-const addCardPopup = new PopupWithForm('.popup_type_add-photo', {
-  formSubmitCallBack: (data) => {
-
-    const cardData = {
-      name: data.title,
-      link: data.link
-    };
-
-    const cardElement = createCard(cardData);
-    cards.prepend(cardElement);
-
-    addFormElement.reset();
-    validatePhotoform.blockButton();
-    addCardPopup.close();
-  }
-});
-
 export const createCard = (data) => {
   const card = new Card({ data, handleCardClick }, '#card');
   return card.generateCard();
 };
 
+const addNewCard = (data) => {
+  const cardData = [
+    {
+    name: data.title,
+    link: data.link
+    }
+  ];
+
+  const addedCard = new Section({
+    items: cardData,
+    renderer: (cardItem) => {
+      const cardElement = createCard(cardItem);
+      addedCard.addItem(cardElement);
+    }
+  },
+  cardListSelector
+  );
+
+  addedCard.renderItems();
+}
+
+const addCardPopup = new PopupWithForm({
+  popupSelector: popupConfig.addCardPopup,
+  formSubmitCallBack: addNewCard
+});
+
+addCardPopup.setEventListeners();
+
+// photo popup
+const photoPopup = new PopupWithImage({
+  popupSelector: popupConfig.photoPopup
+});
+
+photoPopup.setEventListeners();
+
 const handleCardClick = function(data) {
-  const photoPopup = new PopupWithImage('.popup_type_photo');
   photoPopup.open(data);
 }
 
@@ -82,4 +97,5 @@ editProfileBtn.addEventListener('click', () => {
 
 addCardBtn.addEventListener('click', function() {
   addCardPopup.open();
+  validatePhotoform.blockButton();
 });
