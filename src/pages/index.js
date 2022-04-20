@@ -5,7 +5,7 @@ import Card from '../scripts/components/Card.js';
 import FormValidator from '../scripts/components/FormValidator.js';
 import Section from '../scripts/components/Section.js';
 import UserInfo from '../scripts/components/UserInfo.js';
-import { editProfileBtn, editFormElement, nameInput, jobInput, addCardBtn, addFormElement, cards, cardListSelector, settingsObj, userDataSelectors, popupConfig } from '../scripts/utils/constants.js';
+import { editProfileBtn, editFormElement, nameInput, jobInput, addCardBtn, addFormElement, cardListSelector, settingsObj, userDataSelectors, popupConfig } from '../scripts/utils/constants.js';
 import PopupWithForm from '../scripts/components/PopupWithForm.js';
 import PopupWithImage from '../scripts/components/PopupWithImage.js';
 
