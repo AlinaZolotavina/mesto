@@ -21,40 +21,6 @@ const editProfilePopup = new PopupWithForm({
 
 editProfilePopup.setEventListeners();
 
-// add new card
-export const createCard = (data) => {
-  const card = new Card({ data, handleCardClick }, '#card');
-  return card.generateCard();
-};
-
-const addNewCard = (data) => {
-  const cardData = [
-    {
-    name: data.title,
-    link: data.link
-    }
-  ];
-
-  const addedCard = new Section({
-    items: cardData,
-    renderer: (cardItem) => {
-      const cardElement = createCard(cardItem);
-      addedCard.addItem(cardElement);
-    }
-  },
-  cardListSelector
-  );
-
-  addedCard.renderItems();
-}
-
-const addCardPopup = new PopupWithForm({
-  popupSelector: popupConfig.addCardPopup,
-  formSubmitCallBack: addNewCard
-});
-
-addCardPopup.setEventListeners();
-
 // photo popup
 const photoPopup = new PopupWithImage({
   popupSelector: popupConfig.photoPopup
@@ -66,18 +32,34 @@ const handleCardClick = function(data) {
   photoPopup.open(data);
 }
 
-// render initial cards
-const initialCardsList = new Section({
+// render initial cards and add new card
+export const createCard = (data) => {
+  const card = new Card({ data, handleCardClick }, '#card');
+  return card.generateCard();
+};
+
+const cardList = new Section({
   items: initialCards,
-  renderer: (cardItem) => {
-    const cardElement = createCard(cardItem);
-    initialCardsList.addItem(cardElement);
+  renderer: (item) => {
+    const cardElement = createCard(item);
+    cardList.addItem(cardElement);
   }
 },
 cardListSelector
 );
 
-initialCardsList.renderItems();
+cardList.renderItems();
+
+const addNewCard = (data) => {
+  cardList.addItem(createCard(data))
+}
+
+const addCardPopup = new PopupWithForm({
+  popupSelector: popupConfig.addCardPopup,
+  formSubmitCallBack: addNewCard
+});
+
+addCardPopup.setEventListeners();
 
 // enable validation
 const validateProfileForm = new FormValidator(settingsObj, editFormElement);
