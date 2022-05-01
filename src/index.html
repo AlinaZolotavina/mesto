@@ -13,7 +13,11 @@
 
     <main class="content">
       <section class="profile">
-        <img class="profile__image" src="<%=require('./images/avatar.jpg')%>" alt="фото профиля">
+        <div class="profile__avatar">
+          <img class="profile__avatar-image" src="<%=require('./images/avatar.jpg')%>" alt="фото профиля">
+          <div class="profile__darkening"></div>
+          <div class="profile__avatar-edit-btn"></div>
+        </div>
         <div class="profile__info">
           <div class="profile__info-user">
             <h1 class="profile__name">Жак-Ив Кусто</h1>
@@ -42,10 +46,10 @@
             <span class="form__input-error name-input-error">Вы пропустили это поле.</span>
           </label>
           <label class="form__item">
-            <input class="form__input form__input_type_job" id="job-input" type="text" name="job" placeholder="Кратко о Вас" value="Исследователь океана" minlength="2" maxlength="200" required>
+            <input class="form__input form__input_type_job" id="job-input" type="text" name="about" placeholder="Кратко о Вас" value="Исследователь океана" minlength="2" maxlength="200" required>
             <span class="form__input-error job-input-error">Вы пропустили это поле.</span>
           </label>
-          <button class="form__save-btn" type="submit">Сохранить</button>
+          <button class="button button_type_submit" type="submit">Сохранить</button>
         </form>
         <button class="popup__close-btn"></button>
       </div>
@@ -63,7 +67,7 @@
             <input class="form__input form__input_type_link" id="link-input" type="url" name="link" placeholder="Ссылка на картинку" required>
             <span class="form__input-error link-input-error">Введите адрес сайта.</span>
           </label>
-          <button class="form__save-btn" type="submit">Создать</button>
+          <button class="button button_type_submit" type="submit">Создать</button>
         </form>
         <button class="popup__close-btn"></button>
       </div>
@@ -79,12 +83,39 @@
       </div>
     </div>
 
+    <div class="popup popup_type_confirmation">
+      <div class="popup__container">
+        <h2 class="popup__title popup__title_place_confirmation-popup">Вы уверены?</h2>
+        <form class="form" name="confirmForm" novalidate>
+          <button class="button button_type_submit" type="submit">Да</button>
+        </form>
+        <button class="popup__close-btn"></button>
+      </div>
+    </div>
+
+    <div class="popup popup_type_avatar-edit">
+      <div class="popup__container">
+        <h2 class="popup__title">Обновить аватар</h2>
+        <form class="form" name="updateAvatar" novalidate>
+          <label class="form__item">
+            <input class="form__input form__input_type_link" id="link-input" type="url" name="avatar" placeholder="Ссылка на картинку" required>
+            <span class="form__input-error link-input-error">Ссылка на изображение.</span>
+          </label>
+          <button class="button button_type_submit" type="submit">Сохранить</button>
+        </form>
+        <button class="popup__close-btn"></button>
+      </div>
+    </div>
+
     <template id="card">
       <li class="element">
         <img class="element__image" src="." alt="Фотография">
         <div class="element__container">
           <h2 class="element__title"></h2>
-          <button class="element__like-btn"></button>
+          <div class="element__like-container">
+            <button class="element__like-btn"></button>
+            <span class="element__like-counter">0</span>
+          </div>
         </div>
         <button class="element__delete-btn"></button>
       </li>

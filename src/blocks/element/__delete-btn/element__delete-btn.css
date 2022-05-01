@@ -11,8 +11,6 @@
   border: none;
   cursor: pointer;
   transition: opacity .3s ease;
-}
-
-.element__delete-btn:hover {
-  opacity: .6;
+  opacity: 0;
+  visibility: hidden;
 }
