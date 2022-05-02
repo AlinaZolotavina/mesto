@@ -9,7 +9,7 @@ export default class PopupWithSubmit extends Popup {
   }
 
   _submit(evt) {
-    evt.preventDefault;
+    evt.preventDefault();
     this._formSubmitCalback(this.data);
   }
 

@@ -21,7 +21,7 @@ export default class Api {
     .then((res) => this._checkResponse(res));
   }
 
-  addCard() {
+  addCard(data) {
     return fetch(`${this._serverUrl}cards`, {
       method: 'POST',
       headers: {
@@ -91,4 +91,8 @@ export default class Api {
   // deleteLike() {
 
   // }
+
+  getInitialData() {
+    return Promise.all([this.getUserData(), this.getInitialCards()]);
+  }
 }

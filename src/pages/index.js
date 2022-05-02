@@ -16,6 +16,30 @@ const api = new Api({
   token: 'c4f5357d-335f-4f00-b321-6e024ea9f5d9',
 });
 
+let userId;
+
+// render initial cards and add new card
+export const createCard = (data) => {
+  const card = new Card({ data, userId, handleCardClick, handleLikeBtnClick, handleDeleteBtnClick}, '#card');
+  return card.generateCard();
+};
+
+const cardList = new Section({
+  renderer: (item) => {
+    cardList.addItem(createCard(item));
+  }
+},
+cardListSelector
+);
+
+Promise.all([api.getUserData(), api.getInitialCards()])
+  .then(data => {
+    const [ userData, initialCards ] = data;
+    userId = userData._id;
+    userInfoElement.setUserInfo(userData);
+    cardList.renderItems(initialCards.reverse());
+});
+
 // edit profile
 const userInfoElement = new UserInfo(userDataSelectors);
 
@@ -61,55 +85,40 @@ const handleCardClick = (data) => {
   photoPopup.open(data);
 }
 
-const handleLikeClick = (data) => {
+const handleLikeBtnClick = (data) => {
   data.classList.toggle('element__like-btn_clicked');
 }
 
-const handleDeleteIconClick = (data) => {
+const handleDeleteBtnClick = (data) => {
   deleteCardPopup.data = data;
-  console.log(deleteCardPopup);
-  deleteCardPopup.open();
+  deleteCardPopup.open(data);
 }
 
-// confirm deletion popup
 const deleteCardPopup = new PopupWithSubmit({
   popupSelector: popupConfig.popupWithSubmit,
   formSubmitCallback: (data) => {
     api.deleteCard(data.cardId)
-    .then((res) => {
-      console.log(res);
+    .then(() => {
+      data.card.remove();
+      deleteCardPopup.close();
     })
-
-  }
+ }
 })
 
 deleteCardPopup.setEventListeners();
 
-// render initial cards and add new card
-export const createCard = (data) => {
-  const card = new Card({ data, handleCardClick, handleLikeClick, handleDeleteIconClick }, '#card');
-  return card.generateCard();
-};
-
-const cardList = new Section({
-  items: initialCards,
-  renderer: (item) => {
-    const cardElement = createCard(item);
-    cardList.addItem(cardElement);
-  }
-},
-cardListSelector
-);
-
-cardList.renderItems();
-
-const addNewCard = (data) => {
-  cardList.addItem(createCard(data))
-}
-
 const addCardPopup = new PopupWithForm({
   popupSelector: popupConfig.addCardPopup,
-  formSubmitCallBack: addNewCard
+  formSubmitCallBack: (data) => {
+    const item = {
+      name: data.name,
+      link: data.link
+    };
+    api.addCard(item)
+    .then((res) => {
+      cardList.addItem(createCard(res));
+    })
+  }
 });
 
 addCardPopup.setEventListeners();
@@ -142,3 +151,4 @@ avatar.addEventListener('click', () => {
   validateAvatarForm.resetError();
   validateAvatarForm.blockButton();
 })
+
