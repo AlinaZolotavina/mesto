@@ -1,6 +1,5 @@
 import '../pages/index.css';
 
-import initialCards from '../scripts/utils/initialCards.js';
 import Api from '../scripts/components/Api.js';
 import Card from '../scripts/components/Card.js';
 import FormValidator from '../scripts/components/FormValidator.js';
@@ -20,7 +19,7 @@ let userId;
 
 // render initial cards and add new card
 export const createCard = (data) => {
-  const card = new Card({ data, userId, handleCardClick, handleLikeBtnClick, handleDeleteBtnClick}, '#card');
+  const card = new Card({ data, userId, handleCardClick, requestSettingOfLike, requestDeletionOfLike, handleDeleteBtnClick}, '#card');
   return card.generateCard();
 };
 
@@ -37,15 +36,18 @@ Promise.all([api.getUserData(), api.getInitialCards()])
     const [ userData, initialCards ] = data;
     userId = userData._id;
     userInfoElement.setUserInfo(userData);
-    cardList.renderItems(initialCards.reverse());
-});
+    userInfoElement.setUserAvatar(userData);
+    cardList.renderItems(initialCards.reverse())
+  })
+  .catch((err) => console.log(err));
 
 // edit profile
 const userInfoElement = new UserInfo(userDataSelectors);
 
 const editProfilePopup = new PopupWithForm({
   popupSelector: popupConfig.editProfilePopup,
-  formSubmitCallBack: (data) => {
+  formSubmitCallBack: (data, button) => {
+      renderLoading(button, 'Сохранение...');
       api.changeUserData(data)
       .then((res) => {
         userInfoElement.setUserInfo(res);
@@ -53,15 +55,20 @@ const editProfilePopup = new PopupWithForm({
       .catch((err) => {
         console.log(err);
       })
+      .finally(() => renderLoading(button, 'Сохранить'));
   }
 })
+
+
+const renderLoading = (button, text) => button.textContent = text;
 
 editProfilePopup.setEventListeners();
 
 // edit avatar popup
 const editAvatarPopup = new PopupWithForm ({
   popupSelector: popupConfig.editAvatarPopup,
-  formSubmitCallBack: (data) => {
+  formSubmitCallBack: (data, button) => {
+    renderLoading(button, 'Сохранение...');
     api.changeAvatar(data)
     .then((res) => {
       userInfoElement.setUserAvatar(res);
@@ -69,6 +76,7 @@ const editAvatarPopup = new PopupWithForm ({
     .catch((err) => {
       console.log(err);
     })
+    .finally(() => renderLoading(button, 'Сохранить'));
   }
 })
 
@@ -85,8 +93,12 @@ const handleCardClick = (data) => {
   photoPopup.open(data);
 }
 
-const handleLikeBtnClick = (data) => {
-  data.classList.toggle('element__like-btn_clicked');
+const requestSettingOfLike = (data) => {
+  return api.setLike(data);
+}
+
+const requestDeletionOfLike = (data) => {
+  return api.deleteLike(data);
 }
 
 const handleDeleteBtnClick = (data) => {
@@ -96,12 +108,15 @@ const handleDeleteBtnClick = (data) => {
 
 const deleteCardPopup = new PopupWithSubmit({
   popupSelector: popupConfig.popupWithSubmit,
-  formSubmitCallback: (data) => {
+  formSubmitCallback: (data, button) => {
+    renderLoading(button, 'Удаление...');
     api.deleteCard(data.cardId)
     .then(() => {
       data.card.remove();
       deleteCardPopup.close();
     })
+    .catch((err) => console.log(err))
+    .finally(() => renderLoading(button, 'Да'));
  }
 })
 
@@ -109,7 +124,8 @@ deleteCardPopup.setEventListeners();
 
 const addCardPopup = new PopupWithForm({
   popupSelector: popupConfig.addCardPopup,
-  formSubmitCallBack: (data) => {
+  formSubmitCallBack: (data, button) => {
+    renderLoading(button, 'Создание...');
     const item = {
       name: data.name,
       link: data.link
@@ -118,6 +134,7 @@ const addCardPopup = new PopupWithForm({
     .then((res) => {
       cardList.addItem(createCard(res));
     })
+    .finally(() => hideLoading(button, 'Создать'))
   }
 });
 

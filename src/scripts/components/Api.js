@@ -84,13 +84,26 @@ export default class Api {
     .then((res) => this._checkResponse(res));
   }
 
-  // putLike() {
+  setLike(data) {
+    return fetch(`${this._serverUrl}cards/${data}/likes`, {
+      method: 'PUT',
+      headers: {
+        authorization: this._token,
+        'Content-Type': 'application/json'
+      }
+    })
+    .then((res) => this._checkResponse(res));
+  }
 
-  // }
-
-  // deleteLike() {
-
-  // }
+  deleteLike(data) {
+    return fetch(`${this._serverUrl}cards/${data}/likes`, {
+      method: 'DELETE',
+      headers: {
+        authorization: this._token
+      }
+    })
+    .then((res) => this._checkResponse(res));
+  }
 
   getInitialData() {
     return Promise.all([this.getUserData(), this.getInitialCards()]);
