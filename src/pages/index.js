@@ -8,7 +8,7 @@ import UserInfo from '../scripts/components/UserInfo.js';
 import { editProfileBtn, editFormElement, nameInput, jobInput, avatar, addCardBtn, addFormElement, editAvatarFormElement, cardListSelector, settingsObj, userDataSelectors, popupConfig } from '../scripts/utils/constants.js';
 import PopupWithForm from '../scripts/components/PopupWithForm.js';
 import PopupWithImage from '../scripts/components/PopupWithImage.js';
-import PopupWithSubmit from '../scripts/components/PopupWithSubmit';
+import PopupWithConfirmation from '../scripts/components/PopupWithConfirmation';
 
 const api = new Api({
   serverUrl: 'https://mesto.nomoreparties.co/v1/cohort-40/',
@@ -17,12 +17,30 @@ const api = new Api({
 
 let userId;
 
-// render initial cards and add new card
+// functions
 export const createCard = (data) => {
   const card = new Card({ data, userId, handleCardClick, requestSettingOfLike, requestDeletionOfLike, handleDeleteBtnClick}, '#card');
   return card.generateCard();
 };
 
+const handleCardClick = (data) => photoPopup.open(data);
+
+const requestSettingOfLike = (data) => {
+  return api.setLike(data);
+}
+
+const requestDeletionOfLike = (data) => {
+  return api.deleteLike(data);
+}
+
+const handleDeleteBtnClick = (data) => {
+  deleteCardPopup.data = data;
+  deleteCardPopup.open(data);
+}
+
+const renderLoading = (button, text) => button.textContent = text;
+
+// renderer
 const cardList = new Section({
   renderer: (item) => {
     cardList.addItem(createCard(item));
@@ -30,6 +48,9 @@ const cardList = new Section({
 },
 cardListSelector
 );
+
+// request for initial cards and user information, to render it
+const userInfoElement = new UserInfo(userDataSelectors);
 
 Promise.all([api.getUserData(), api.getInitialCards()])
   .then(data => {
@@ -41,9 +62,7 @@ Promise.all([api.getUserData(), api.getInitialCards()])
   })
   .catch((err) => console.log(err));
 
-// edit profile
-const userInfoElement = new UserInfo(userDataSelectors);
-
+// edit profile popup
 const editProfilePopup = new PopupWithForm({
   popupSelector: popupConfig.editProfilePopup,
   formSubmitCallBack: (data, button) => {
@@ -58,9 +77,6 @@ const editProfilePopup = new PopupWithForm({
       .finally(() => renderLoading(button, 'Сохранить'));
   }
 })
-
-
-const renderLoading = (button, text) => button.textContent = text;
 
 editProfilePopup.setEventListeners();
 
@@ -89,24 +105,27 @@ const photoPopup = new PopupWithImage({
 
 photoPopup.setEventListeners();
 
-const handleCardClick = (data) => {
-  photoPopup.open(data);
-}
+// add card popup
+const addCardPopup = new PopupWithForm({
+  popupSelector: popupConfig.addCardPopup,
+  formSubmitCallBack: (data, button) => {
+    renderLoading(button, 'Создание...');
+    const item = {
+      name: data.name,
+      link: data.link
+    };
+    api.addCard(item)
+    .then((res) => {
+      cardList.addItem(createCard(res));
+    })
+    .finally(() => renderLoading(button, 'Создать'))
+  }
+});
 
-const requestSettingOfLike = (data) => {
-  return api.setLike(data);
-}
+addCardPopup.setEventListeners();
 
-const requestDeletionOfLike = (data) => {
-  return api.deleteLike(data);
-}
-
-const handleDeleteBtnClick = (data) => {
-  deleteCardPopup.data = data;
-  deleteCardPopup.open(data);
-}
-
-const deleteCardPopup = new PopupWithSubmit({
+// delete card popup
+const deleteCardPopup = new PopupWithConfirmation({
   popupSelector: popupConfig.popupWithSubmit,
   formSubmitCallback: (data, button) => {
     renderLoading(button, 'Удаление...');
@@ -121,24 +140,6 @@ const deleteCardPopup = new PopupWithSubmit({
 })
 
 deleteCardPopup.setEventListeners();
-
-const addCardPopup = new PopupWithForm({
-  popupSelector: popupConfig.addCardPopup,
-  formSubmitCallBack: (data, button) => {
-    renderLoading(button, 'Создание...');
-    const item = {
-      name: data.name,
-      link: data.link
-    };
-    api.addCard(item)
-    .then((res) => {
-      cardList.addItem(createCard(res));
-    })
-    .finally(() => hideLoading(button, 'Создать'))
-  }
-});
-
-addCardPopup.setEventListeners();
 
 // enable validation
 const validateProfileForm = new FormValidator(settingsObj, editFormElement);
@@ -155,11 +156,13 @@ editProfileBtn.addEventListener('click', () => {
   nameInput.value = data.name;
   jobInput.value = data.about;
   validateProfileForm.resetError();
+  validateProfileForm.activateButton();
   editProfilePopup.open();
 });
 
 addCardBtn.addEventListener('click', () => {
   addCardPopup.open();
+  validatePhotoform.resetError();
   validatePhotoform.blockButton();
 });
 

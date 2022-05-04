@@ -4,6 +4,10 @@
   border-radius: 10px 10px 0 0;
   object-fit: cover;
   object-position: center;
+  background: #f0f0f0 url(../../../images/image-error.svg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   cursor: pointer;
 }
 
