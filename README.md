@@ -1,3 +1,4 @@
+![Mesto](./src/images/Mesto-sample.jpg)
 # Project: Mesto ![english](./src/images/english.png?raw=true?raw=true)
 ## About the project:
 The interactive service that allows users to add photos and captions to them, delete added photos, put likes, edit profile information, change the user's avatar.
@@ -21,6 +22,15 @@ The interactive service that allows users to add photos and captions to them, de
 - CSS: Flexible Box Layout, Grid Layout, Backgrounds and Borders,  Colors, Fonts, Media queries;
 - Java Script: OOP, HTTP request methods.
 
+## Deployment Instructions:
+```
+git clone https://github.com/AlinaZolotavina/mesto.git
+cd mesto
+npm i webpack --save-dev
+npm run build
+npm run dev
+```
+
 # Проект: Место ![russian](./src/images/russian.png?raw=true?raw=true)
 ## О проекте:
 Интерактивный сервис, позволяющий пользователям добавлять фотографии и подписи к ним, удалять добавленные фотографии, ставить лайки, редактировать информацию профиля, изменять аватар пользователя.
@@ -43,3 +53,12 @@ The interactive service that allows users to add photos and captions to them, de
 - HTML: семантическая верстка;
 - CSS: технология построения сетки Flex, технология построения сетки Grid Layout, фоны и границы, цвета, шрифты, медиазапросы;
 - Java Script: ООП, HTTP-запросы.
+
+## Инструкция по развертыванию проекта:
+```
+git clone https://github.com/AlinaZolotavina/mesto.git
+cd mesto
+npm i webpack --save-dev
+npm run build
+npm run dev
+```
